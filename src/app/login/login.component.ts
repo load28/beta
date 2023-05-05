@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {AsyncPipe} from '@angular/common';
-import {EMAIL_VALIDATION_ERROR_KEY, EmailValidationDirective, isEmailValid} from '@validator';
+import {Component, effect, OnInit, signal} from '@angular/core';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {EmailValidationDirective} from '@validator';
 
 
 @Component({
@@ -11,7 +11,7 @@ import {EMAIL_VALIDATION_ERROR_KEY, EmailValidationDirective, isEmailValid} from
     <form class="login-form"
           [formGroup]="formGroup">
       <div class="login-input-container">
-        <input 
+        <input
           email-validator
           class="login-input"
           type="email"
@@ -53,19 +53,21 @@ import {EMAIL_VALIDATION_ERROR_KEY, EmailValidationDirective, isEmailValid} from
   ],
 })
 export class LoginComponent implements OnInit {
+  user = signal<string | null>(null);
+
+  effectRef = effect((onCleanup) => {
+    this.formGroup.controls.email.setValue(this.user());
+
+    onCleanup(() => this.formGroup.reset({email: 'reset'}));
+  });
+
   formGroup = new FormGroup({
     email: new FormControl<string | null>(null ),
     pwd: new FormControl<string | null>(null),
   });
 
   ngOnInit() {
-    this.formGroup.valueChanges.subscribe({
-      next: (value) => {
-        if(value.email) {
-          console.log('valid - ',isEmailValid(value.email));
-        }
-        console.log('error - ', this.formGroup.controls.email.errors?.[EMAIL_VALIDATION_ERROR_KEY]);
-      }
-    });
+    this.effectRef.destroy();
+    setTimeout(() => this.user.set('10'), 3000);
   }
 }
