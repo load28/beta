@@ -1,7 +1,11 @@
-import {AsyncPipe} from '@angular/common';
-import {Component, effect, OnInit, signal} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {EmailValidationDirective} from '@validator';
+import {AsyncPipe, JsonPipe, NgIf} from '@angular/common';
+import {HttpClient} from '@angular/common/http';
+import {Component, inject} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {domainFromControlValidator, emailFromControlValidator, passwordFromControlValidator} from '@validator';
+import {NonNullableType} from '../util-types';
+import {LoginFormGroupDataType} from './login.model';
 
 
 @Component({
@@ -12,7 +16,6 @@ import {EmailValidationDirective} from '@validator';
           [formGroup]="formGroup">
       <div class="login-input-container">
         <input
-          email-validator
           class="login-input"
           type="email"
           placeholder="Email"
@@ -25,6 +28,10 @@ import {EmailValidationDirective} from '@validator';
                placeholder="Password"
                [formControl]="formGroup.controls.pwd">
       </div>
+      <button *ngIf="formGroup.valid"
+              class="login-button"
+              type="button"
+              (click)="onLogin()">login</button>
     </form>
   `,
   styles: [
@@ -44,30 +51,48 @@ import {EmailValidationDirective} from '@validator';
       .login-input {
         @apply h-12 text-xl px-3 py-1 border-2 border-gray-400 focus:border-blue-400 rounded-lg w-full;
       }
+
+      .login-button {
+        @apply text-lg bg-indigo-500 rounded-lg h-10 px-3 py-1 text-slate-50;
+      }
     `
   ],
   imports: [
+    NgIf,
+    JsonPipe,
     AsyncPipe,
-    EmailValidationDirective,
     ReactiveFormsModule,
   ],
 })
-export class LoginComponent implements OnInit {
-  user = signal<string | null>(null);
+export class LoginComponent {
+  private httpClient = inject(HttpClient);
 
-  effectRef = effect((onCleanup) => {
-    this.formGroup.controls.email.setValue(this.user());
-
-    onCleanup(() => this.formGroup.reset({email: 'reset'}));
+  readonly formGroup = new FormGroup({
+    email: new FormControl<string | null>(null, [Validators.required, domainFromControlValidator, emailFromControlValidator] ),
+    pwd: new FormControl<string | null>(null, [Validators.required, passwordFromControlValidator]),
   });
 
-  formGroup = new FormGroup({
-    email: new FormControl<string | null>(null ),
-    pwd: new FormControl<string | null>(null),
-  });
+  onLogin(): void {
+    const formData = this.formGroup.getRawValue();
+    if(!this.loginFormDataNullableTypeGuard(formData)) {
+      return;
+    }
 
-  ngOnInit() {
-    this.effectRef.destroy();
-    setTimeout(() => this.user.set('10'), 3000);
+    this.loginApiRequest$(formData);
+  }
+
+  private loginFormDataNullableTypeGuard(formData: LoginFormGroupDataType): formData is NonNullableType<LoginFormGroupDataType> {
+    return !!formData.email && !!formData.pwd;
+  }
+
+  private loginApiRequest$(formData: NonNullableType<LoginFormGroupDataType>) {
+    // todo suspense를 어떻게 관리할것인가?
+    this.httpClient.post('/login', formData).pipe(
+      takeUntilDestroyed(),
+    ).subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    });
   }
 }

@@ -1,0 +1,7 @@
+import {PASSWORD_MAX_LEN_ERROR_KEY, PASSWORD_MIN_LEN_ERROR_KEY, PASSWORD_SPACIAL_CHAR_ERROR_KEY} from "@validator";
+
+export interface PasswordValidResultType {
+  [PASSWORD_MIN_LEN_ERROR_KEY]: boolean;
+  [PASSWORD_MAX_LEN_ERROR_KEY]: boolean;
+  [PASSWORD_SPACIAL_CHAR_ERROR_KEY]: boolean;
+}

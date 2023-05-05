@@ -12,5 +12,5 @@ export const emailFromControlValidator = (control: AbstractControl): ValidationE
   }
 
   const isValid = isEmailValid(control.value);
-  return {...control.errors, [EMAIL_VALIDATION_ERROR_KEY]: !isValid};
+  return isValid ? null : {[EMAIL_VALIDATION_ERROR_KEY]: !isValid};
 };
