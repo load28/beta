@@ -1,0 +1,19 @@
+:host {
+  @apply w-full h-screen flex flex-col justify-center items-center;
+}
+
+.login-form {
+  @apply flex flex-col gap-8 w-96;
+}
+
+.login-input-container {
+  @apply relative;
+}
+
+.login-input {
+  @apply h-12 text-xl px-3 py-1 border-2 border-gray-400 focus:border-blue-400 rounded-lg w-full;
+}
+
+.login-button {
+  @apply text-lg bg-indigo-500 rounded-lg h-10 px-3 py-1 text-slate-50;
+}
