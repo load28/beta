@@ -4,8 +4,8 @@ import {Component, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {domainFromControlValidator, emailFromControlValidator, passwordFromControlValidator} from '@validator';
-import {NonNullableType} from '../util-types';
-import {LoginFormGroupDataType} from './login.model';
+import {LoginParams} from './login-api.model';
+import {LoginFormGroupData} from './login.model';
 
 
 @Component({
@@ -81,11 +81,11 @@ export class LoginComponent {
     this.loginApiRequest$(formData);
   }
 
-  private loginFormDataNullableTypeGuard(formData: LoginFormGroupDataType): formData is NonNullableType<LoginFormGroupDataType> {
+  private loginFormDataNullableTypeGuard(formData: LoginFormGroupData): formData is LoginParams {
     return !!formData.email && !!formData.pwd;
   }
 
-  private loginApiRequest$(formData: NonNullableType<LoginFormGroupDataType>) {
+  private loginApiRequest$(formData: LoginParams) {
     // todo suspense를 어떻게 관리할것인가?
     this.httpClient.post('/login', formData).pipe(
       takeUntilDestroyed(),
