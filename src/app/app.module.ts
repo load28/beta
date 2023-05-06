@@ -21,9 +21,7 @@ const STANDALONE_COMPONENT = [
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     ...CORE_MODULE,
     ...COMMON_MODULE,
