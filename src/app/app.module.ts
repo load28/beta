@@ -1,10 +1,11 @@
-import {CommonModule} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AppComponent} from './app.component';
-import {LoginComponent} from './login/login.component';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppComponent } from './app.component';
+import { LoginComponent } from './login/login.component';
+
 
 const CORE_MODULE = [
   CommonModule,
@@ -21,13 +22,13 @@ const STANDALONE_COMPONENT = [
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [ AppComponent ],
   imports: [
     ...CORE_MODULE,
     ...COMMON_MODULE,
     ...STANDALONE_COMPONENT,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule {
 }

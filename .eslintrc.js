@@ -329,23 +329,23 @@ module.exports = {
           {
             "classes": [
               "field",
-              ["decorated-field", "decorated-get" ,"decorated-set"],
+              ["decorated-field", "decorated-get", "decorated-set"],
               "constructor",
               "method"
             ],
             "classExpressions": [
               "field",
-              ["decorated-field", "decorated-get" ,"decorated-set"],
+              ["decorated-field", "decorated-get", "decorated-set"],
               "constructor",
               "method"
             ],
             "interfaces": [
-              ["field","signature"],
+              ["field", "signature"],
               "constructor",
               "method",
             ],
             "typeLiterals": [
-              ["field","signature"],
+              ["field", "signature"],
               "constructor",
               "method",
             ],
@@ -360,7 +360,7 @@ module.exports = {
         "no-dupe-args": "off",
         "no-dupe-keys": "off",
         "no-func-assign": "off",
-        "no-import-assign":"off",
+        "no-import-assign": "off",
         "no-new-symbol": "off",
         "no-obj-calls": "off",
         "no-redeclare": "off",
@@ -369,7 +369,6 @@ module.exports = {
         "no-unreachable": "off",
         "no-unsafe-negation": "off",
         "valid-typeof": "off",
-
         /**
          * -----------------------------------------------------
          * Typesript-eslint recommended Setting
@@ -475,7 +474,7 @@ module.exports = {
         "rxjs/no-internal": "error",
         "rxjs/no-nested-subscribe": "error",
         "rxjs/no-redundant-notify": "error",
-        "rxjs/no-sharereplay": ["error", { allowConfig: true }],
+        "rxjs/no-sharereplay": ["error", {allowConfig: true}],
         "rxjs/no-subject-unsubscribe": "error",
         "rxjs/no-unbound-methods": "error",
         "rxjs/no-unsafe-subject-next": "error",
@@ -531,7 +530,7 @@ module.exports = {
         "*.html"
       ],
       "extends": [
-        "plugin:@angular-eslint/template/recommended"
+        "plugin:@angular-eslint/template/recommended",
       ],
       "rules": {
         "@angular-eslint/template/eqeqeq": "error",

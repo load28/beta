@@ -1,7 +1,6 @@
-import {Directive, forwardRef} from '@angular/core';
-import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angular/forms';
-import {domainFromControlValidator} from "./domain-validation.service";
-
+import { Directive, forwardRef } from '@angular/core';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
+import { domainFromControlValidator } from "./domain-validation.service";
 
 @Directive({
   standalone: true,
